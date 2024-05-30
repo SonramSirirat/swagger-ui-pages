@@ -473,10 +473,13 @@ paths:
                 properties:
                   state:
                     type: string
+                    example: "acknowledge"
                   status:
                     type: string
+                    example: 200
                   code:
                     type: string
+                    example: "20000"
            
         '404':
           $ref: '#/components/responses/404Error'
