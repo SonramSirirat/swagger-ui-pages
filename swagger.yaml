@@ -19,7 +19,7 @@ tags:
 
 servers:
 
-  - url: https://{baseURL}/anticorrupt-api/common/api/{version}
+  - url: https://{baseURL}/anticorrupt-api/common/api/{version}/sky
     description: The devlopment API server
     variables:
       baseURL:
@@ -437,7 +437,7 @@ paths:
         '404':
           $ref: '#/components/responses/404Error'
   
-  /sky/order:
+  /order:
     get:
       tags:
         - Order
