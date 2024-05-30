@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   version: 1.0.0
-  title: Technical Specification AC Common
+  title: Technical Specification AC Common (GitHub Pages)
   description: This document describes the requirements for connection details and API service information from SINGULARITY (SGL) to Partners.
   contact:
     email: sample@email.com
@@ -10,16 +10,28 @@ info:
   termsOfService: https://google.com
 
 tags:
+- name: Order
+  description: Everythings about orders
 - name: Notification
   description: Everythings about notification
 - name: Others
   description: Everythings about others
 
 servers:
-  - url: https://api-dev.adldigitalservice.com/anticorrupt-api/common/
-    description: Devlopment server
+
+  - url: https://{baseURL}/anticorrupt-api/common/api/{version}
+    description: The devlopment API server
+    variables:
+      baseURL:
+        default: api-dev.adldigitalservice.com
+        description: Base URL
+      version:
+        default: v1
+        description: API version
+
   - url: https://api.server.staging/v1
     description: Staging server
+
   - url: https://api.server.production/v1
     description: Production server
 
@@ -258,45 +270,136 @@ components:
                 example: "Expectation Failed"
   
   parameters:
-    PageLimit:
-      name: limit
-      in: query
-      description: Limit the number of items on a page
-      schema:
-        type: integer
-        maximum: 1024
-        minimum: 0
-        format: int32
     
-    PageOffset:
-      name: offset
+    privateIdType:
+      name: privateIdType
       in: query
-      description: Specifies the page number of the others to be displayed
+      required: true
+      description: Private Id type
       schema:
-        type: integer
-        maximum: 1024
-        minimum: 0
-        format: int32
-        
+        type: string
+        default: myAISRefId
+
+    privateIdValue:
+      name: privateIdValue
+      in: query
+      required: true
+      description: Private Id Value
+      schema:
+        type: string
+        default: BEpjqrTuO3V
+    
+    header_x-transaction-id:     
+      name: x-transaction-id
+      in: header
+      required: true
+      description: Transaction ID
+      schema:
+        type: string
+        default: getOrderTest001
+    
+    header_mfaf-session:
+      name: mfaf-session
+      in: header
+      required: true
+      description: MFAF Session
+      schema:
+        type: string
+        default: cm0246513416874654596
+
+    header_mfaf-transaction:
+      name: mfaf-transaction
+      in: header
+      required: true
+      description: MFAF Transaction
+      schema:
+        type: string
+        default: order1254584
+
+    header_mfaf-broker:
+      name: mfaf-broker
+      in: header
+      required: false
+      description: MFAF Broker
+      schema:
+        type: string
+        default: none
+
+    header_mfaf-channel:
+      name: mfaf-channel
+      in: header
+      required: false
+      description: MFAF Channel
+      schema:
+        type: string
+        default: none
+
+    header_mfaf-device:
+      name: mfaf-device
+      in: header
+      required: false
+      description: MFAF Device
+      schema:
+        type: string
+        default: none
+
+    header_mfaf-public:
+      name: mfaf-public
+      in: header
+      required: false
+      description: MFAF Public
+      schema:
+        type: string
+        default: none
+    
+    header_mfaf-useCase:
+      name: mfaf-useCase
+      in: header
+      required: false
+      description: MFAF Use Case
+      schema:
+        type: string
+        default: none
+
+    header_mfaf-useCaseStep:
+      name: mfaf-useCaseStep
+      in: header
+      required: false
+      description: MFAF Use Case Step
+      schema:
+        type: string
+        default: none
+
+    header_mfaf-user:
+      name: mfaf-user
+      in: header
+      required: false
+      description: MFAF User
+      schema:
+        type: string
+        default: none
 
 paths:
   /createNotiIndividual:
     
     get:
-      summary: list an individual notification
-      description: Create a individual notification
       tags:
         - Notification
-      parameters:
-        - $ref: '#/components/parameters/PageLimit'
-        - $ref: '#/components/parameters/PageOffset'
+      summary: list an individual notification
+      description: Create a individual notification
       responses:
-        
         '200':
-          $ref: '#/components/responses/200Success'
-        
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/200Success'
         '404':
-          $ref: '#/components/responses/404Error'
+          description: Invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/404Error'
 
     post:
       summary: Create an individual notification
@@ -321,24 +424,59 @@ paths:
         '404':
           $ref: '#/components/responses/404Error'
 
-  /others/{username}:
-    
+  /others/{username}:    
     get:
-      summary: Obtain others information
-      description: Obtain information about an others from his or her unique username
       tags:
         - Others
-      parameters:
-        - name: username
-          in: path
-          required: true
-          schema:
-            type: string
+      summary: Obtain others information
+      description: Obtain information about an others from his or her unique username
 
       responses:
-        
         '200':
           $ref: '#/components/responses/200Success'
-        
+        '404':
+          $ref: '#/components/responses/404Error'
+  
+  /sky/order:
+    get:
+      tags:
+        - Order
+      summary: Get order details
+      description: Get order details by privateIdType and privateIdValue
+      operationId: getOrder
+
+      parameters:
+        - $ref: '#/components/parameters/header_x-transaction-id'
+        - $ref: '#/components/parameters/header_mfaf-session'
+        - $ref: '#/components/parameters/header_mfaf-transaction'
+        # - $ref: '#/components/parameters/header_mfaf-broker'
+        # - $ref: '#/components/parameters/header_mfaf-channel'
+        # - $ref: '#/components/parameters/header_mfaf-device'
+        # - $ref: '#/components/parameters/header_mfaf-public'
+        # - $ref: '#/components/parameters/header_mfaf-useCase'
+        # - $ref: '#/components/parameters/header_mfaf-useCaseStep'
+        # - $ref: '#/components/parameters/header_mfaf-user'
+        - $ref: '#/components/parameters/privateIdType'
+        - $ref: '#/components/parameters/privateIdValue'
+
+      requestBody:
+        content:
+          application/json: {}
+      
+      responses:
+        '200':
+          description: Successful responses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  state:
+                    type: string
+                  status:
+                    type: string
+                  code:
+                    type: string
+           
         '404':
           $ref: '#/components/responses/404Error'
