@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "version": "1.0.0",
-    "title": "Technical Specification AC common function",
+    "title": "Technical Specification AC Common",
     "description": "This document describes the requirements for connection details and API service information from SINGULARITY (SGL) to Partners.",
     "contact": {
       "email": "sample@email.com",
