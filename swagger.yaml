@@ -18,7 +18,6 @@ tags:
   description: Everythings about others
 
 servers:
-
   - url: https://{baseURL}/anticorrupt-api/common/api/{version}/sky
     description: The devlopment API server
     variables:
@@ -40,7 +39,6 @@ components:
     name:
       type: http
       scheme: basic
-  
   schemas:
     body_parameter:
       description: Contain a body parameters
@@ -192,9 +190,7 @@ components:
               appUserId:
                 type: string
                 description: Receiver
-  
   responses:
-    
     200Success:
       description: Successfully created
       content:
@@ -211,7 +207,6 @@ components:
               developerMessage:
                 type: string
                 example: "success"
-
     403Error:
       description: Missing mandatory Header & Body from domain service
       content:
